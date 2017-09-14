@@ -41,7 +41,7 @@ bool Plane::intersect(const Ray& r, HitInfo& hit, unsigned int prim_idx) const
   //       the dot product of the vectors v and w.
 
 	float divisor = dot(r.direction, onb.m_normal);
-	if (divisor < 0.005 && divisor > -0.005) {
+	if (divisor < 0.001 && divisor > -0.001) {
 		return false;
 	}
 	float tmark = max(-1.0f*((dot(r.origin,onb.m_normal) + d) / divisor),0.0f);

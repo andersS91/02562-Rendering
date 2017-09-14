@@ -53,6 +53,9 @@ bool Accelerator::closest_hit(optix::Ray& r, HitInfo& hit) const
   for(uint i = 0; i < primitives.size(); ++i)
   {
 	  primitives[i]->geometry->intersect(r, hit, primitives[i]->prim_idx);
+	  if (hit.has_hit && hit.dist < r.tmax) {
+		  r.tmax = hit.dist;
+	  }
   }
   return hit.has_hit;
 }

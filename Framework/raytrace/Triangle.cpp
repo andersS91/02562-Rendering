@@ -8,7 +8,7 @@
 
 using namespace optix;
 
-bool intersect_triangle(const Ray& ray, 
+bool intersect_trianglex(const Ray& ray, 
                         const float3& v0, 
                         const float3& v1, 
                         const float3& v2, 
@@ -22,7 +22,31 @@ bool intersect_triangle(const Ray& ray,
   // with not implementing this function. However, I recommend that
   // you implement it for completeness.
 
-  return false;
+	const float3 e1 = v1 - v0;
+	const float3 e2 = v2 - v0;
+	const float3 q = cross(ray.direction, e2);
+	
+	const float a = dot(e1, q);
+
+	const float3 s = ray.origin - v0;
+	const float3 r = cross(s, e1);
+
+	v = dot(s, q) / a;
+	w = dot(ray.direction, r) / a;
+	const float u = 1.0f - (v + w);
+	
+	t = dot(e2, r) / a;
+
+	static const float epsilon = 1e-6f;
+	static const float epsilon2 = 1e-10;
+
+	if (a <= epsilon || u < -epsilon2 || v < -epsilon2 || w < -epsilon2 || t <= 0.0f) {
+		return false;
+	}
+	else {
+		return true;
+	}
+
 }
 
 
@@ -54,23 +78,18 @@ bool Triangle::intersect(const Ray& r, HitInfo& hit, unsigned int prim_idx) cons
   //       of the function name) to choose between the OptiX implementation and
   //       the function just above this one.
 
-	float n = 0.0f;
+	float3 n = make_float3(0.0f);
 	float tmark = 0.0f;
 	float v = 0.0f;
 	float w = 0.0f;
 
-	float* npnt = &n;
-	float* tmarkpnt = &tmark;
-	float* vpnt = &v;
-	float* wpnt = &w;
-
-
-	if (intersect_triangle(r, v0, v1, v2, n, tmark, v, w)) {
+	if(intersect_trianglex(r, v0, v1, v2, n, tmark, v, w)) {
+		tmark = max(tmark, 0.0f);
 		hit.has_hit = true;
 		hit.dist = tmark;
 		hit.position = r.origin + r.direction * tmark;
-		//         hit.geometric_normal (the normalized normal of the triangle)
-		//         hit.shading_normal   (the normalized normal of the triangle)
+		hit.geometric_normal = n;
+		hit.shading_normal = n;
 		hit.material = &material;
 		return true;
 	}
