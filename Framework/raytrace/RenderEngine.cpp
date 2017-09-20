@@ -265,7 +265,7 @@ void RenderEngine::render()
     // tracer  (ray tracer with access to the function compute_pixel)
 	  for (uint x = 0; x < static_cast<int>(res.x); ++x)
 	  {
-		  image[x + y*res.x] = tracer.compute_pixel(x, y);;  
+		  image[x + y*res.x] = tracer.compute_pixel(x, y);  
 	  }
 
     if(((y + 1) % 50) == 0) 

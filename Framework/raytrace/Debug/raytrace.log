@@ -1,3 +1,3 @@
-﻿Camera.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
+﻿  Glossy.cpp
   raytrace.vcxproj -> C:\02562 Rendering\Framework\Debug\raytrace.exe
   raytrace.vcxproj -> C:\02562 Rendering\Framework\Debug\raytrace.pdb (Full PDB)

@@ -52,8 +52,7 @@ bool Accelerator::closest_hit(optix::Ray& r, HitInfo& hit) const
   //       the scene. See the functions below this one for inspiration.
   for(uint i = 0; i < primitives.size(); ++i)
   {
-	  primitives[i]->geometry->intersect(r, hit, primitives[i]->prim_idx);
-	  if (hit.has_hit && hit.dist < r.tmax) {
+	  if (primitives[i]->geometry->intersect(r, hit, primitives[i]->prim_idx)) {
 		  r.tmax = hit.dist;
 	  }
   }

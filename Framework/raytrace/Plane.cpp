@@ -44,8 +44,9 @@ bool Plane::intersect(const Ray& r, HitInfo& hit, unsigned int prim_idx) const
 	if (divisor < 0.001 && divisor > -0.001) {
 		return false;
 	}
-	float tmark = max(-1.0f*((dot(r.origin,onb.m_normal) + d) / divisor),0.0f);
-	if( tmark > 0 ){
+	//float tmark = max(-1.0f*((dot(r.origin,onb.m_normal) + d) / divisor),0.0f);
+	float tmark = -1.0f*((dot(r.origin, onb.m_normal) + d) / divisor);
+	if( tmark > r.tmin && tmark < r.tmax){
 		hit.material = &material;
 		hit.has_hit = true;
 		hit.geometric_normal = onb.m_normal;
